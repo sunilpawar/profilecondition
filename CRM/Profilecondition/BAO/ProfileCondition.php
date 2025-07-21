@@ -305,4 +305,44 @@ class CRM_Profilecondition_BAO_ProfileCondition extends CRM_Profilecondition_DAO
 
     return $profiles;
   }
+  
+  /**
+   * Get available entity types for profile conditions
+   *
+   * @return array
+   */
+  public static function getEntityTypes() {
+    return [
+      'contribution_page' => E::ts('Contribution Page'),
+      'event' => E::ts('Event'),
+    ];
+  }
+
+  /**
+   * Get available condition types
+   *
+   * @return array
+   */
+  public static function getConditionTypes() {
+    return [
+      'default_value' => E::ts('Default Value'),
+      'visibility' => E::ts('Visibility'),
+      'readonly' => E::ts('Read Only'),
+      'conditional' => E::ts('Conditional Logic'),
+    ];
+  }
+
+  /**
+   * Get available actions for conditional logic
+   *
+   * @return array
+   */
+  public static function getConditionActions() {
+    return [
+      'show' => E::ts('Show'),
+      'hide' => E::ts('Hide'),
+      'enable' => E::ts('Enable'),
+      'disable' => E::ts('Disable'),
+    ];
+  }
 }
