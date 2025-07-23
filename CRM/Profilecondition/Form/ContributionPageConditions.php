@@ -5,21 +5,21 @@ use CRM_Profilecondition_ExtensionUtil as E;
 /**
  * Form controller class for managing profile conditions on contribution pages
  */
-class CRM_Profilecondition_Form_ContributionPageConditions extends CRM_Core_Form {
+class CRM_Profilecondition_Form_ContributionPageConditions extends CRM_Event_Form_ManageEvent {
 
   /**
    * The contribution page ID
    *
    * @var int
    */
-  protected $_id;
+  public $_id;
 
   /**
    * The action being performed
    *
    * @var int
    */
-  protected $_action;
+  public $_action;
 
   /**
    * The condition ID being edited
@@ -35,7 +35,11 @@ class CRM_Profilecondition_Form_ContributionPageConditions extends CRM_Core_Form
     $this->_id = CRM_Utils_Request::retrieve('id', 'Positive', $this, TRUE);
     $this->_action = CRM_Utils_Request::retrieve('action', 'String', $this, FALSE, 'browse');
     $this->_conditionId = CRM_Utils_Request::retrieve('cid', 'Positive', $this, FALSE);
-
+    CRM_Core_Error::debug_var('ContributionPageConditions preProcess', [
+      'id' => $this->_id,
+      'action' => $this->_action,
+      'conditionId' => $this->_conditionId,
+    ]);
     $this->assign('contributionPageId', $this->_id);
     $this->assign('action', $this->_action);
 
@@ -90,15 +94,15 @@ class CRM_Profilecondition_Form_ContributionPageConditions extends CRM_Core_Form
   private function buildEditForm() {
     // Get available fields
     $fields = CRM_Profilecondition_BAO_ProfileCondition::getAvailableFields('contribution_page', $this->_id);
+    CRM_Core_Error::debug_var('ContributionPageConditions preProcess', [
+      'id' => $this->_id,
+      'action' => $this->_action,
+      'conditionId' => $this->_conditionId,
+    ]);
     $this->add('select', 'field_name', E::ts('Field Name'), $fields, TRUE);
 
     // Condition types
-    $conditionTypes = [
-      'default_value' => E::ts('Default Value'),
-      'visibility' => E::ts('Visibility'),
-      'readonly' => E::ts('Read Only'),
-      'conditional' => E::ts('Conditional Logic'),
-    ];
+    $conditionTypes = CRM_Profilecondition_BAO_ProfileCondition::getConditionTypes();
     $this->add('select', 'condition_type', E::ts('Condition Type'), $conditionTypes, TRUE);
 
     // Condition value
@@ -108,12 +112,7 @@ class CRM_Profilecondition_Form_ContributionPageConditions extends CRM_Core_Form
     $this->add('select', 'target_field', E::ts('Target Field'), $fields);
     $this->add('text', 'trigger_value', E::ts('Trigger Value'));
 
-    $actions = [
-      'show' => E::ts('Show'),
-      'hide' => E::ts('Hide'),
-      'enable' => E::ts('Enable'),
-      'disable' => E::ts('Disable'),
-    ];
+    $actions = CRM_Profilecondition_BAO_ProfileCondition::getConditionActions();
     $this->add('select', 'action', E::ts('Action'), $actions);
 
     // Active status

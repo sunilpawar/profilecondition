@@ -226,7 +226,7 @@ class ProfileCondition extends DAOEntity {
    *
    * @return string
    */
-  protected static function getEntityTitle() {
+  protected static function getEntityTitle(bool $plural = FALSE): string {
     return 'Profile Condition';
   }
 

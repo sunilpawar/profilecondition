@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+
+<table>
+  <base>CRM/Profilecondition</base>
+  <class>Profilecondition</class>
+  <name>civicrm_profile_condition</name>
+  <comment>FIXME</comment>
+  <log>false</log>
+
+  <field>
+    <name>id</name>
+    <type>int unsigned</type>
+    <required>true</required>
+    <comment>Unique Profilecondition ID</comment>
+    <html>
+      <type>Number</type>
+    </html>
+  </field>
+  <primaryKey>
+    <name>id</name>
+    <autoincrement>true</autoincrement>
+  </primaryKey>
+
+  <field>
+    <name>entity_type</name>
+    <title>Entity Type</title>
+    <comment>Type of entity (contribution_page, event)</comment>
+    <type>varchar</type>
+    <length>64</length>
+    <required>true</required>
+    <export>true</export>
+    <import>true</import>
+    <add>5.63</add>
+    <html>
+      <type>Select</type>
+    </html>
+    <pseudoconstant>
+      <callback>CRM_Profilecondition_BAO_ProfileCondition::getEntityTypes</callback>
+    </pseudoconstant>
+  </field>
+  <field>
+    <name>entity_id</name>
+    <title>Entity ID</title>
+    <type>int unsigned</type>
+    <comment>ID of the entity</comment>
+    <required>true</required>
+    <export>true</export>
+    <import>true</import>
+    <add>5.63</add>
+    <html>
+      <type>Number</type>
+      <label>Entity ID</label>
+    </html>
+  </field>
+  <field>
+    <name>profile_id</name>
+    <title>Profile ID</title>
+    <type>int unsigned</type>
+    <comment>Profile ID if specific to a profile</comment>
+    <required>false</required>
+    <export>true</export>
+    <import>true</import>
+    <add>5.63</add>
+    <html>
+      <type>Number</type>
+      <label>Entity ID</label>
+    </html>
+  </field>
+  <foreignKey>
+    <name>profile_id</name>
+    <table>civicrm_uf_group</table>
+    <key>id</key>
+    <onDelete>CASCADE</onDelete>
+  </foreignKey>
+  <field>
+    <name>field_name</name>
+    <title>Field Name</title>
+    <comment>Field name in the profile</comment>
+    <type>varchar</type>
+    <length>255</length>
+    <required>true</required>
+    <export>true</export>
+    <import>true</import>
+    <add>5.63</add>
+    <html>
+      <type>Text</type>
+    </html>
+  </field>
+
+  <field>
+    <name>condition_type</name>
+    <title>Condition Type</title>
+    <comment>Type of condition (default_value, visibility, readonly, conditional)</comment>
+    <type>varchar</type>
+    <length>32</length>
+    <required>true</required>
+    <export>true</export>
+    <import>true</import>
+    <add>5.63</add>
+    <html>
+      <type>Select</type>
+    </html>
+    <pseudoconstant>
+      <callback>CRM_Profilecondition_BAO_ProfileCondition::getConditionTypes</callback>
+    </pseudoconstant>
+  </field>
+
+  <field>
+    <name>condition_value</name>
+    <title>Condition Value</title>
+    <comment>Value for the condition (JSON for complex conditions)</comment>
+    <type>text</type>
+    <required>false</required>
+    <export>true</export>
+    <import>true</import>
+    <add>5.63</add>
+    <html>
+      <type>TextArea</type>
+      <rows>4</rows>
+      <cols>60</cols>
+    </html>
+  </field>
+
+  <field>
+    <name>target_field</name>
+    <title>Target Field</title>
+    <comment>Target field for conditional logic</comment>
+    <type>varchar</type>
+    <length>255</length>
+    <required>false</required>
+    <export>true</export>
+    <import>true</import>
+    <add>5.63</add>
+    <html>
+      <type>Text</type>
+    </html>
+  </field>
+
+  <field>
+    <name>trigger_value</name>
+    <title>Trigger Value</title>
+    <comment>Value that triggers the condition</comment>
+    <type>text</type>
+    <required>false</required>
+    <export>true</export>
+    <import>true</import>
+    <add>5.63</add>
+    <html>
+      <type>TextArea</type>
+      <rows>4</rows>
+      <cols>60</cols>
+    </html>
+  </field>
+
+  <field>
+    <name>action</name>
+    <title>Action</title>
+    <comment>Action to take (show, hide, enable, disable)</comment>
+    <type>varchar</type>
+    <length>32</length>
+    <required>false</required>
+    <export>true</export>
+    <import>true</import>
+    <add>5.63</add>
+    <html>
+      <type>Text</type>
+    </html>
+    <html>
+      <type>Select</type>
+    </html>
+    <pseudoconstant>
+      <callback>CRM_Profilecondition_BAO_ProfileCondition::getConditionActions</callback>
+    </pseudoconstant>
+  </field>
+
+  <field>
+    <name>is_active</name>
+    <title>Is Active</title>
+    <comment>Is this condition active?</comment>
+    <type>boolean</type>
+    <default>0</default>
+    <required>false</required>
+    <export>true</export>
+    <html>
+      <type>CheckBox</type>
+    </html>
+  </field>
+  <field>
+    <name>weight</name>
+    <title>Weight</title>
+    <type>int unsigned</type>
+    <default>0</default>
+    <required>false</required>
+    <comment>Ordering weight</comment>
+    <add>5.75</add>
+    <html>
+      <type>Text</type>
+    </html>
+  </field>
+
+  <field>
+    <name>created_date</name>
+    <title>Created Date</title>
+    <default>CURRENT_TIMESTAMP</default>
+    <type>timestamp</type>
+    <comment>When was the record created.</comment>
+    <import>true</import>
+    <headerPattern>/created(.?date)?/i</headerPattern>
+    <dataPattern>/^\d{4}-?\d{2}-?\d{2} ?(\d{2}:?\d{2}:?(\d{2})?)?$/</dataPattern>
+    <html>
+      <type>Select Date</type>
+      <formatType>activityDateTime</formatType>
+      <label>Created Date</label>
+    </html>
+  </field>
+  <field>
+    <name>modified_date</name>
+    <title>Modified Date</title>
+    <default>CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP</default>
+    <type>datetime</type>
+    <import>true</import>
+    <headerPattern>/modified(.?date)?/i</headerPattern>
+    <dataPattern>/^\d{4}-?\d{2}-?\d{2} ?(\d{2}:?\d{2}:?(\d{2})?)?$/</dataPattern>
+    <html>
+      <type>Select Date</type>
+      <formatType>activityDateTime</formatType>
+    </html>
+  </field>
+  <index>
+    <name>index_entity</name>
+    <fieldName>entity_type</fieldName>
+    <fieldName>entity_id</fieldName>
+    <add>3.3</add>
+    <change>4.5</change>
+  </index>
+
+  <index>
+    <name>index_field</name>
+    <fieldName>field_name</fieldName>
+    <add>3.3</add>
+    <change>4.5</change>
+  </index>
+
+  <index>
+    <name>index_active</name>
+    <fieldName>is_active</fieldName>
+    <add>3.3</add>
+    <change>4.5</change>
+  </index>
+</table>

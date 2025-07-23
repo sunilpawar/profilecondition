@@ -46,6 +46,7 @@ function profilecondition_civicrm_tabset($tabsetName, &$tabs, $context) {
       'active' => TRUE,
       'current' => FALSE,
     ];
+    CRM_Core_Error::debug_var('profilecondition_civicrm_tabset tab', $tabs['profileconditions']);
   }
 
   if ($tabsetName == 'civicrm/event/manage' && !empty($context['event_id'])) {
@@ -112,14 +113,13 @@ function profilecondition_civicrm_buildProfile($profileName, &$form) {
  */
 function profilecondition_civicrm_pageRun(&$page) {
   $pageName = get_class($page);
-
   if ($pageName == 'CRM_Contribute_Page_ContributionPage' ||
     $pageName == 'CRM_Event_Page_EventInfo') {
-
     $entityType = ($pageName == 'CRM_Contribute_Page_ContributionPage') ? 'contribution_page' : 'event';
     $entityId = ($pageName == 'CRM_Contribute_Page_ContributionPage') ?
-      $page->_id : $page->_id;
-
+      $page->getvar('_id'): $page->getvar('_eventId');
+    CRM_Core_Error::debug_var('pageRun Entity Type', $entityType);
+    CRM_Core_Error::debug_var('pageRun Entity ID', $entityId);
     if ($entityId) {
       $conditions = CRM_Profilecondition_BAO_ProfileCondition::getConditionalLogic($entityType, $entityId);
       if (!empty($conditions)) {
@@ -129,13 +129,4 @@ function profilecondition_civicrm_pageRun(&$page) {
       }
     }
   }
-}
-
-/**
- * Implements hook_civicrm_navigationMenu().
- *
- * @link https://docs.civicrm.org/dev/en/latest/hooks/hook_civicrm_navigationMenu
- */
-function profilecondition_civicrm_navigationMenu(&$menu): void {
-  _profilecondition_civix_civicrm_navigationMenu($menu);
 }

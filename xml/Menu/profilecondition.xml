@@ -3,13 +3,19 @@
   <item>
     <path>civicrm/admin/contribute/profileconditions</path>
     <page_callback>CRM_Profilecondition_Form_ContributionPageConditions</page_callback>
-    <title>ContributionPageConditions</title>
+    <title>Contribution Page Conditions</title>
     <access_arguments>access CiviCRM</access_arguments>
   </item>
   <item>
     <path>civicrm/event/manage/profileconditions</path>
     <page_callback>CRM_Profilecondition_Form_EventConditions</page_callback>
-    <title>EventConditions</title>
+    <title>Event Conditions</title>
+    <access_arguments>access CiviCRM</access_arguments>
+  </item>
+  <item>
+    <path>civicrm/profileconditions/form</path>
+    <page_callback>CRM_Profilecondition_Form_EventConditions</page_callback>
+    <title>Event Conditions</title>
     <access_arguments>access CiviCRM</access_arguments>
   </item>
 </menu>
